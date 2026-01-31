@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="sv" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORE FIVE Scripts - Jobpanel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-logo">
+                <img src="https://i.imgur.com/your-logo.png" alt="Logo" class="loader-img">
+                <div class="loader-spinner"></div>
+            </div>
+            <div class="loader-text">
+                <span>E</span><span>L</span><span>I</span><span>A</span><span>S</span>
+                <span>&nbsp;</span>
+                <span>D</span><span>E</span><span>V</span><span>E</span><span>L</span><span>O</span><span>P</span><span>M</span><span>E</span><span>N</span><span>T</span><span>S</span>
+            </div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="https://i.imgur.com/dark-logo.png" alt="Logo" class="logo logo-dark" id="logoDark">
+                    <img src="https://i.imgur.com/light-logo.png" alt="Logo" class="logo logo-light" id="logoLight">
+                </div>
+                <div class="brand-info">
+                    <h1 class="brand-title">CORE FIVE Scripts</h1>
+                    <span class="brand-subtitle">Job Management</span>
+                </div>
+            </div>
+
+            <!-- Job Badge -->
+            <div class="job-badge-container">
+                <div class="job-badge" id="jobBadge">
+                    <div class="job-badge-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="job-badge-info">
+                        <span class="job-name" id="jobName">Police Department</span>
+                        <span class="job-rank" id="jobRank">Chief of Police</span>
+                    </div>
+                    <div class="job-badge-status online"></div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Huvudmeny</span>
+                    <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <span class="nav-item-text">Översikt</span>
+                        <div class="nav-item-indicator"></div>
+                    </button>
+                    <button class="nav-item" data-tab="employees" onclick="switchTab('employees')" id="nav-employees">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span class="nav-item-text">Personal</span>
+                        <span class="nav-item-badge" id="employeeCount">0</span>
+                    </button>
+                    <button class="nav-item" data-tab="salaries" onclick="switchTab('salaries')" id="nav-salaries">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <span class="nav-item-text">Löner</span>
+                    </button>
+                    <button class="nav-item" data-tab="ranks" onclick="switchTab('ranks')" id="nav-ranks">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-ranking-star"></i>
+                        </div>
+                        <span class="nav-item-text">Ranker</span>
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Ekonomi & Resurser</span>
+                    <button class="nav-item" data-tab="finances" onclick="switchTab('finances')" id="nav-finances">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-vault"></i>
+                        </div>
+                        <span class="nav-item-text">Ekonomi</span>
+                    </button>
+                    <button class="nav-item" data-tab="vehicles" onclick="switchTab('vehicles')" id="nav-vehicles">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <span class="nav-item-text">Fordon</span>
+                    </button>
+                    <button class="nav-item" data-tab="items" onclick="switchTab('items')" id="nav-items">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-boxes-stacked"></i>
+                        </div>
+                        <span class="nav-item-text">Utrustning</span>
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Administration</span>
+                    <button class="nav-item" data-tab="logs" onclick="switchTab('logs')" id="nav-logs">
+                        <div class="nav-item-icon">
+                            <i class="fas fa-clock-rotate-left"></i>
+                        </div>
+                        <span class="nav-item-text">Aktivitetslogg</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                        <div class="theme-toggle-track">
+                            <i class="fas fa-sun theme-icon-light"></i>
+                            <i class="fas fa-moon theme-icon-dark"></i>
+                            <div class="theme-toggle-thumb"></div>
+                        </div>
+                    </button>
+                    <span class="theme-label" id="themeLabel">Mörkt läge</span>
+                </div>
+
+                <!-- User Info -->
+                <div class="user-card">
+                    <div class="user-avatar" id="userAvatar">
+                        <span>AB</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="userName">Alex Berg</span>
+                        <span class="user-role" id="userRole">Administrator</span>
+                    </div>
+                    <button class="user-menu-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-ellipsis-vertical"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h2 id="pageTitle">Översikt</h2>
+                        <p id="pageSubtitle">Välkommen tillbaka! Här är en överblick av ditt jobb.</p>
+                    </div>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Sök..." class="search-input" id="globalSearch">
+                    </div>
+                    <button class="top-bar-btn" onclick="refreshData()">
+                        <i class="fas fa-rotate"></i>
+                    </button>
+                    <button class="top-bar-btn close-btn" onclick="closePanel()">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Tab -->
+                <section id="tab-dashboard" class="tab-content active">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid animate-in">
+                        <div class="stat-card" style="--delay: 0.1s">
+                            <div class="stat-card-bg"></div>
+                            <div class="stat-card-content">
+                                <div class="stat-icon blue">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value counter" data-target="0" id="statTotalEmployees">0</span>
+                                    <span class="stat-label">Totalt Anställda</span>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card" style="--delay: 0.2s">
+                            <div class="stat-card-bg"></div>
+                            <div class="stat-card-content">
+                                <div class="stat-icon green">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value counter" data-target="0" id="statOnlineEmployees">0</span>
+                                    <span class="stat-label">Online Nu</span>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>8%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card" style="--delay: 0.3s">
+                            <div class="stat-card-bg"></div>
+                            <div class="stat-card-content">
+                                <div class="stat-icon gold">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="statBalance">$0</span>
+                                    <span class="stat-label">Företagskassa</span>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>24%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card" style="--delay: 0.4s">
+                            <div class="stat-card-bg"></div>
+                            <div class="stat-card-content">
+                                <div class="stat-icon purple">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="statHours">0h</span>
+                                    <span class="stat-label">Timmar Denna Vecka</span>
+                                </div>
+                                <div class="stat-trend down">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>3%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions animate-in" style="--delay: 0.5s">
+                        <h3 class="section-title">
+                            <i class="fas fa-bolt"></i>
+                            Snabbåtgärder
+                        </h3>
+                        <div class="quick-actions-grid">
+                            <button class="quick-action-btn" onclick="openHireModal()" id="quickHire">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <span>Anställ</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="switchTab('salaries')">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-hand-holding-dollar"></i>
+                                </div>
+                                <span>Ge Bonus</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="switchTab('finances')">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <span>Insättning</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="switchTab('items')">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-cart-shopping"></i>
+                                </div>
+                                <span>Beställ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Recent Activity -->
+                        <div class="dashboard-card animate-in" style="--delay: 0.6s">
+                            <div class="card-header">
+                                <h3><i class="fas fa-timeline"></i> Senaste Aktivitet</h3>
+                                <button class="card-action-btn" onclick="switchTab('logs')">
+                                    Visa alla <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-list" id="recentActivity">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Online Staff -->
+                        <div class="dashboard-card animate-in" style="--delay: 0.7s">
+                            <div class="card-header">
+                                <h3><i class="fas fa-signal"></i> Personal Online</h3>
+                                <div class="online-indicator">
+                                    <span class="pulse-dot"></span>
+                                    <span id="onlineCountBadge">0</span> online
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="online-staff-list" id="onlineStaffList">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Employees Tab -->
+                <section id="tab-employees" class="tab-content">
+                    <div class="tab-header animate-in">
+                        <div class="tab-header-left">
+                            <div class="filter-tabs">
+                                <button class="filter-tab active" data-filter="all">Alla</button>
+                                <button class="filter-tab" data-filter="online">Online</button>
+                                <button class="filter-tab" data-filter="offline">Offline</button>
+                            </div>
+                        </div>
+                        <div class="tab-header-right">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="employeeSearch" placeholder="Sök personal..." onkeyup="filterEmployees()">
+                            </div>
+                            <button class="btn btn-primary" onclick="openHireModal()" id="btn-hire">
+                                <i class="fas fa-plus"></i>
+                                <span>Anställ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="employees-grid animate-in" style="--delay: 0.2s" id="employeesGrid">
+                        <!-- Dynamic content -->
+                    </div>
+                </section>
+
+                <!-- Salaries Tab -->
+                <section id="tab-salaries" class="tab-content">
+                    <div class="salaries-container">
+                        <!-- Rank Salaries -->
+                        <div class="salary-section animate-in">
+                            <div class="section-header">
+                                <div class="section-title-group">
+                                    <h3><i class="fas fa-layer-group"></i> Löner Per Rank</h3>
+                                    <p>Hantera standardlöner för varje rank i organisationen</p>
+                                </div>
+                                <button class="btn btn-success" onclick="saveAllSalaries()">
+                                    <i class="fas fa-save"></i>
+                                    Spara Ändringar
+                                </button>
+                            </div>
+                            <div class="salary-cards-grid" id="rankSalariesGrid">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+
+                        <!-- Bonus Section -->
+                        <div class="salary-section animate-in" style="--delay: 0.2s">
+                            <div class="section-header">
+                                <div class="section-title-group">
+                                    <h3><i class="fas fa-gift"></i> Ge Bonus</h3>
+                                    <p>Skicka en engångsbonus till en anställd</p>
+                                </div>
+                            </div>
+                            <div class="bonus-form-card">
+                                <div class="bonus-form">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-user"></i> Välj Anställd</label>
+                                        <select id="bonusEmployee" class="form-select">
+                                            <option value="">Välj mottagare...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><i class="fas fa-dollar-sign"></i> Belopp</label>
+                                        <div class="input-with-icon">
+                                            <span class="input-prefix">$</span>
+                                            <input type="number" id="bonusAmount" class="form-input" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><i class="fas fa-message"></i> Anledning</label>
+                                        <input type="text" id="bonusReason" class="form-input" placeholder="Anledning för bonus...">
+                                    </div>
+                                    <button class="btn btn-primary btn-large" onclick="giveBonus()">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Skicka Bonus
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ranks Tab -->
+                <section id="tab-ranks" class="tab-content">
+                    <div class="ranks-container animate-in">
+                        <div class="section-header">
+                            <div class="section-title-group">
+                                <h3><i class="fas fa-ranking-star"></i> Rankhantering & Permissions</h3>
+                                <p>Konfigurera behörigheter och inställningar för varje rank</p>
+                            </div>
+                        </div>
+                        <div class="ranks-list" id="ranksList">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Finances Tab -->
+                <section id="tab-finances" class="tab-content">
+                    <div class="finances-container">
+                        <!-- Balance Card -->
+                        <div class="balance-card animate-in">
+                            <div class="balance-card-bg"></div>
+                            <div class="balance-card-content">
+                                <div class="balance-header">
+                                    <span class="balance-label">Företagskassa</span>
+                                    <div class="balance-icon">
+                                        <i class="fas fa-vault"></i>
+                                    </div>
+                                </div>
+                                <div class="balance-amount" id="financeBalance">$0</div>
+                                <div class="balance-actions">
+                                    <button class="balance-btn deposit" onclick="openDepositModal()">
+                                        <i class="fas fa-plus"></i>
+                                        Sätt In
+                                    </button>
+                                    <button class="balance-btn withdraw" onclick="openWithdrawModal()">
+                                        <i class="fas fa-minus"></i>
+                                        Ta Ut
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transaction History -->
+                        <div class="transactions-card animate-in" style="--delay: 0.2s">
+                            <div class="card-header">
+                                <h3><i class="fas fa-receipt"></i> Transaktionshistorik</h3>
+                                <div class="transaction-filters">
+                                    <button class="filter-btn active" data-filter="all">Alla</button>
+                                    <button class="filter-btn" data-filter="deposit">Insättningar</button>
+                                    <button class="filter-btn" data-filter="withdraw">Uttag</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="transactions-list" id="transactionsList">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vehicles Tab -->
+                <section id="tab-vehicles" class="tab-content">
+                    <div class="vehicles-container animate-in">
+                        <div class="section-header">
+                            <div class="section-title-group">
+                                <h3><i class="fas fa-car-side"></i> Fordonsbeställningar</h3>
+                                <p>Beställ nya fordon till organisationen</p>
+                            </div>
+                        </div>
+                        <div class="vehicles-grid" id="vehiclesGrid">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Items Tab -->
+                <section id="tab-items" class="tab-content">
+                    <div class="items-container">
+                        <div class="items-section animate-in">
+                            <div class="section-header">
+                                <div class="section-title-group">
+                                    <h3><i class="fas fa-boxes-stacked"></i> Utrustning</h3>
+                                    <p>Beställ utrustning och material</p>
+                                </div>
+                            </div>
+                            <div class="items-grid" id="itemsGrid">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+
+                        <!-- Cart -->
+                        <div class="cart-section animate-in" style="--delay: 0.2s">
+                            <div class="cart-card">
+                                <div class="cart-header">
+                                    <h3><i class="fas fa-shopping-cart"></i> Varukorg</h3>
+                                    <span class="cart-count" id="cartCount">0</span>
+                                </div>
+                                <div class="cart-items" id="cartItems">
+                                    <div class="cart-empty">
+                                        <i class="fas fa-cart-shopping"></i>
+                                        <p>Varukorgen är tom</p>
+                                    </div>
+                                </div>
+                                <div class="cart-footer">
+                                    <div class="cart-total">
+                                        <span>Totalt</span>
+                                        <span class="cart-total-amount" id="cartTotal">$0</span>
+                                    </div>
+                                    <button class="btn btn-primary btn-large" onclick="placeOrder()">
+                                        <i class="fas fa-check"></i>
+                                        Beställ Nu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Logs Tab -->
+                <section id="tab-logs" class="tab-content">
+                    <div class="logs-container animate-in">
+                        <div class="section-header">
+                            <div class="section-title-group">
+                                <h3><i class="fas fa-clock-rotate-left"></i> Aktivitetslogg</h3>
+                                <p>Se all aktivitet i organisationen</p>
+                            </div>
+                            <div class="logs-filters">
+                                <select id="logTypeFilter" class="form-select" onchange="filterLogs()">
+                                    <option value="all">Alla händelser</option>
+                                    <option value="hire">Anställningar</option>
+                                    <option value="fire">Avskedningar</option>
+                                    <option value="promote">Befordringar</option>
+                                    <option value="salary">Löneändringar</option>
+                                    <option value="finance">Transaktioner</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="logs-timeline" id="logsTimeline">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Hire Modal -->
+    <div id="hireModal" class="modal-overlay hidden">
+        <div class="modal animate-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon blue">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3>Anställ Personal</h3>
+                        <p>Lägg till en ny medarbetare</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('hireModal')">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Spelar-ID eller Namn</label>
+                    <input type="text" id="hirePlayerSearch" class="form-input" placeholder="Ange spelar-ID eller namn...">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-ranking-star"></i> Välj Rank</label>
+                    <select id="hireRank" class="form-select">
+                        <!-- Dynamic content -->
+                    </select>
+                </div>
+                <div class="nearby-players-section">
+                    <div class="nearby-header">
+                        <i class="fas fa-location-dot"></i>
+                        <span>Spelare i närheten</span>
+                    </div>
+                    <div class="nearby-players-list" id="nearbyPlayersList">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('hireModal')">Avbryt</button>
+                <button class="btn btn-primary" onclick="hirePlayer()">
+                    <i class="fas fa-check"></i>
+                    Anställ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Employee Modal -->
+    <div id="editEmployeeModal" class="modal-overlay hidden">
+        <div class="modal animate-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon purple">
+                        <i class="fas fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h3>Redigera Anställd</h3>
+                        <p>Ändra information och behörigheter</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('editEmployeeModal')">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editEmployeeId">
+                <div class="employee-edit-header">
+                    <div class="employee-edit-avatar" id="editEmployeeAvatar">AB</div>
+                    <div class="employee-edit-info">
+                        <input type="text" id="editEmployeeName" class="form-input" readonly>
+                        <span class="employee-edit-status">Anställd</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-ranking-star"></i> Rank</label>
+                    <select id="editEmployeeRank" class="form-select">
+                        <!-- Dynamic content -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-dollar-sign"></i> Individuell Lön</label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="editEmployeeSalary" class="form-input" placeholder="Lämna tom för standardlön">
+                    </div>
+                    <span class="form-hint">Lämna tom för att använda rankens standardlön</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" onclick="fireEmployee()" id="btn-fire-employee">
+                    <i class="fas fa-user-minus"></i>
+                    Avskeda
+                </button>
+                <div class="modal-footer-right">
+                    <button class="btn btn-secondary" onclick="closeModal('editEmployeeModal')">Avbryt</button>
+                    <button class="btn btn-primary" onclick="saveEmployeeChanges()">
+                        <i class="fas fa-save"></i>
+                        Spara
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rank Permissions Modal -->
+    <div id="rankPermissionsModal" class="modal-overlay hidden">
+        <div class="modal modal-large animate-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon gold">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3>Redigera Rank</h3>
+                        <p>Konfigurera behörigheter och inställningar</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('rankPermissionsModal')">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editRankGrade">
+                <div class="rank-edit-grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Rank Namn</label>
+                        <input type="text" id="editRankName" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-dollar-sign"></i> Standardlön</label>
+                        <div class="input-with-icon">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="editRankSalary" class="form-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="permissions-section">
+                    <h4><i class="fas fa-key"></i> Behörigheter</h4>
+                    <div class="permissions-grid" id="permissionsGrid">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('rankPermissionsModal')">Avbryt</button>
+                <button class="btn btn-primary" onclick="saveRankPermissions()">
+                    <i class="fas fa-save"></i>
+                    Spara Ändringar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Money Modal (Deposit/Withdraw) -->
+    <div id="moneyModal" class="modal-overlay hidden">
+        <div class="modal animate-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon green" id="moneyModalIcon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div>
+                        <h3 id="moneyModalTitle">Transaktion</h3>
+                        <p id="moneyModalSubtitle">Hantera företagskassan</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('moneyModal')">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fas fa-dollar-sign"></i> Belopp</label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="moneyAmount" class="form-input" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-message"></i> Anledning (valfritt)</label>
+                    <input type="text" id="moneyReason" class="form-input" placeholder="Ange anledning...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('moneyModal')">Avbryt</button>
+                <button class="btn btn-primary" id="moneyModalConfirm" onclick="confirmMoneyAction()">
+                    <i class="fas fa-check"></i>
+                    Bekräfta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal-overlay hidden">
+        <div class="modal modal-small animate-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon red" id="confirmModalIcon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h3 id="confirmModalTitle">Bekräfta</h3>
+                        <p id="confirmModalSubtitle">Är du säker?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p id="confirmModalMessage">Vill du fortsätta med denna åtgärd?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Avbryt</button>
+                <button class="btn btn-danger" id="confirmModalBtn" onclick="confirmAction()">
+                    <i class="fas fa-check"></i>
+                    Bekräfta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
